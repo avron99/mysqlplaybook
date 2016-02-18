@@ -5,4 +5,4 @@
       -  vars/main.yml
     gather_facts: true
     tasks:
-      - include: task/dumprestore.yml
+      - include: task/main.yml
