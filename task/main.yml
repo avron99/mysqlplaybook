@@ -5,7 +5,5 @@
     mysql_db: login_host={{ source_host }} login_user={{ source_user }} login_password={{ source_passwd }} name={{ source_db_name }} state=dump target={{ path }}/{{ source_db_name }}.sql
   - name: Create destination DB {{ dest_db_name }}
     mysql_db: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ dest_db_name }} state=present
-  - name: Create user {{ tmp_user }} on {{ dest_host }}
-    mysql_user: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ tmp_user }} password={{ dest_passwd }} priv={{ dest_db_name }}.*:ALL state=present
   - name: Restore DB {{ source_db_name }} on destionation {{ dest_host }} in DB {{ dest_db_name }} 
     mysql_db: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ dest_db_name }} state=import target={{ path }}/{{ source_db_name }}.sql
