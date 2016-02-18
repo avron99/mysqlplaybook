@@ -1,0 +1,8 @@
+---
+  - hosts: local
+    connection: local
+    vars_files:
+      -  vars/main.yml
+    gather_facts: true
+    tasks:
+      - include: task/dumprestore.yml

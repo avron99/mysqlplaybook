@@ -1,0 +1,10 @@
+---
+  source_db_name: 
+  source_host: 
+  source_user:
+  source_passwd: 
+  dest_host: 
+  dest_user: 
+  dest_passwd: 
+  dest_db_name: 
+  dump_path: dump
