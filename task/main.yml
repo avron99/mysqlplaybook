@@ -1,9 +1,23 @@
 ---
   - name: Create directory Dump
     file: path=dump state=directory mode=0755
-  - name: Dump source DB {{ source_db_name }}
-    mysql_db: login_host={{ source_host }} login_user={{ source_user }} login_password={{ source_passwd }} name={{ source_db_name }} state=dump target={{ path }}/{{ source_db_name }}.sql
-  - name: Create destination DB {{ dest_db_name }}
-    mysql_db: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ dest_db_name }} state=present
-  - name: Restore DB {{ source_db_name }} on destionation {{ dest_host }} in DB {{ dest_db_name }} 
-    mysql_db: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ dest_db_name }} state=import target={{ path }}/{{ source_db_name }}.sql
+  - name: Dump source DB
+    mysql_db: login_user={{ source_user }} login_password={{ source_passwd }} name={{ item }} state=dump target={{ path }}/{{ item }}.sql
+    with_items:
+	- db_name_1
+	- db_name_2
+    tags: dumpremote
+
+  - name: Fetch databases backups
+      fetch: src={{ path }}/{{ item }}.sql dest={{ path }} 
+      with_items:
+	- db_name_1
+	- db_name_2
+    tags: dumpremote
+
+  - name: Restore DB 
+    mysql_db: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ item }} state=import target={{ path }}/{{ item }}.sql
+    with_items:
+	- db_name_1
+	- db_name_2
+    tags: restore
