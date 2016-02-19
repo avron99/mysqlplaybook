@@ -4,20 +4,20 @@
   - name: Dump source DB
     mysql_db: login_user={{ source_user }} login_password={{ source_passwd }} name={{ item }} state=dump target={{ path }}/{{ item }}.sql
     with_items:
-	- db_name_1
-	- db_name_2
+       - db_name_1
+       - db_name_2
     tags: dumpremote
 
   - name: Fetch databases backups
       fetch: src={{ path }}/{{ item }}.sql dest={{ path }} 
       with_items:
-	- db_name_1
-	- db_name_2
+       - db_name_1
+       - db_name_2
     tags: dumpremote
 
   - name: Restore DB 
     mysql_db: login_host={{ dest_host }} login_user={{ dest_user }} login_password={{ dest_passwd }} name={{ item }} state=import target={{ path }}/{{ item }}.sql
     with_items:
-	- db_name_1
-	- db_name_2
+       - db_name_1
+       - db_name_2
     tags: restore
